@@ -76,7 +76,20 @@
     margin: 5px;
   }
 
-  .delete
+  .delete,.edit
   {
      float: right;
+     width:20px;
+     background-color: lightgrey;
+     border: none;
+  }
+  .edit
+  {
+    margin-right:2px;
+    
+  }
+
+  .delete
+  {
+    margin-left:2px;
   }
