@@ -3,27 +3,23 @@ form.addEventListener('submit', storeItem);
 
 function storeItem(e){
     e.preventDefault();
+
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
   
-    // Get input value
-    var name = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
+  // Retrieve the existing user details from local storage, or initialize an empty array if none exist
+  var userDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
 
-
-    // localStorage.setItem('name',name);
-    // localStorage.setItem('email',email);
-
-        //storing in the local storage
-  let myObj =
-  {
-    name:name,
-    age:email
+  // Create a new user object with the entered name and email
+  var user = {
+    name: name,
+    email: email
   };
-
-  let myObj_serialized =JSON.stringify(myObj);
-
-  localStorage.setItem("myObj", myObj_serialized);
-
-  let myObj_deserialized =JSON.parse(localStorage.getItem("myObj"));
-
   
+  // Add the new user object to the userDetails array
+  userDetails.push(user);
+  
+  // Store the updated userDetails array in local storage
+  localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
   }
