@@ -18,14 +18,18 @@ function storeItem(e) {
       email: email
   };
 
-  // Retrieve the existing user details from local storage, or initialize an empty array if none exist
-  var userDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
 
-  // Add the new user object to the userDetails array
-  userDetails.push(user);
-
-  // Store the updated userDetails array in local storage
-  localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  
+  axios.post("https://crudcrud.com/api/ab055fee9fe64dacb6918b45ed45b698/appointmentData",user)
+  .then((response)=>
+  {
+    console.log(response)
+  })
+  .catch(err => 
+    {
+      document.body.innerHTML=document.body.innerHTML+"<h4> Something Went Wrong</h4>"
+      console.log(err);
+    })
 
   // Create a new list item
   var li = document.createElement('li');

@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>JS For Beginners</title>
+    <title>Book Appointment</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <header>
-      <h1>JS For Beginners</h1>
+      <h1>Book a Appointment</h1>
     </header>
 
     <section class="container">
@@ -24,6 +24,10 @@
           <label for="email">Email:</label>
           <input type="text" id="email">
         </div>
+        <div>
+          <label for="number">Phone Number:</label>
+          <input type="number" id="number">
+        </div>
         <input class="btn" type="submit" value="Submit">
       </form>
     <ul id="items" class="list-group">     
@@ -31,5 +35,6 @@
   </section>
 
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
   </body>
 </html>
