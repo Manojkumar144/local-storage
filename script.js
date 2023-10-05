@@ -6,60 +6,72 @@ var itemList = document.getElementById('items');
 itemList.addEventListener('click', removeItem);
 itemList.addEventListener('click', editItem);
 
+function getItems() {
+  axios.get("https://crudcrud.com/api/1d2279ac7feb42a69ab13240aa2a8d70/appointmentData")
+    .then((response) => {
+      // Assuming the response.data is an array of items
+      const items = response.data;
+
+      // Clear the current list
+      itemList.innerHTML = "";
+
+      // Iterate through the items and add them to the list
+      items.forEach((item) => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.appendChild(document.createTextNode(item.name + '-' + item.email));
+        
+        // Create a delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete';
+        deleteBtn.textContent = 'X';
+        
+        // Create an edit button
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit';
+        editBtn.textContent = '-';
+        
+        li.appendChild(deleteBtn);
+        li.appendChild(editBtn);
+        
+        itemList.appendChild(li);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching items:", error);
+    });
+}
+
+// Call getItems when the page loads
+window.addEventListener('load', getItems);
+
 function storeItem(e) {
   e.preventDefault();
 
-  var name = document.getElementById("name").value;
-  var email = document.getElementById("email").value;
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
 
-  // Create a new user object with the entered name and email
-  var user = {
-      name: name,
-      email: email
+  const user = {
+    name: name,
+    email: email
   };
 
-
-  
-  axios.post("https://crudcrud.com/api/ab055fee9fe64dacb6918b45ed45b698/appointmentData",user)
-  .then((response)=>
-  {
-    console.log(response)
-  })
-  .catch(err => 
-    {
-      document.body.innerHTML=document.body.innerHTML+"<h4> Something Went Wrong</h4>"
-      console.log(err);
+  axios.post("https://crudcrud.com/api/1d2279ac7feb42a69ab13240aa2a8d70/appointmentData", user)
+    .then((response) => {
+      console.log(response);
+      // After successfully adding the item, fetch and display the updated list of items
+      getItems();
     })
-
-  // Create a new list item
-  var li = document.createElement('li');
-
-  // Create a delete button
-  var deleteBtn = document.createElement('button');
-
-  // Create an edit button
-  var editBtn = document.createElement('button');
-
-  // Add classes
-  li.className = 'list-group-item';
-  deleteBtn.className = 'delete';
-  editBtn.className = 'edit';
-
-  // Append the elements to the list item
-  li.appendChild(document.createTextNode(name + '-' + email));
-  
-  // Set the text content of delete and edit buttons
-  deleteBtn.textContent = 'X';
-  editBtn.textContent = '-';
-
-  li.appendChild(deleteBtn);
-  li.appendChild(editBtn);
-
-  itemList.appendChild(li);
+    .catch((err) => {
+      document.body.innerHTML = document.body.innerHTML + "<h4> Something Went Wrong</h4>";
+      console.error(err);
+    });
 
   // Clear the name and email input fields
   document.getElementById("name").value = "";
   document.getElementById("email").value = "";
+  document.getElementById("number").value = "";
+
 }
 
   // Remove item
