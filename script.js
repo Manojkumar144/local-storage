@@ -3,7 +3,7 @@ form.addEventListener('submit', storeItem);
 var itemList = document.getElementById('items');
 
 // Delete event
-itemList.addEventListener('click', removeItem);
+itemList.addEventListener('click', deleteItem);
 itemList.addEventListener('click', editItem);
 
 function getItems() {
@@ -19,18 +19,23 @@ function getItems() {
       items.forEach((item) => {
         const li = document.createElement('li');
         li.className = 'list-group-item';
-        li.appendChild(document.createTextNode(item.name + '-' + item.email));
         
         // Create a delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete';
         deleteBtn.textContent = 'X';
-        
+
+        deleteBtn.addEventListener('click', () => {
+          deleteItem(item._id); // Call a function to delete the item by ID
+        });
+
+
         // Create an edit button
         const editBtn = document.createElement('button');
         editBtn.className = 'edit';
         editBtn.textContent = '-';
         
+        li.appendChild(document.createTextNode(item.name + '-' + item.email));
         li.appendChild(deleteBtn);
         li.appendChild(editBtn);
         
@@ -74,17 +79,23 @@ function storeItem(e) {
 
 }
 
-  // Remove item
-function removeItem(e){
-  if(e.target.classList.contains('delete')){
-    if(confirm('Are You Sure?')){
-      var li = e.target.parentElement;
-      itemList.removeChild(li);
-    }
+// Remove item
+function deleteItem(itemId) {
+  if (confirm('Are You Sure?')) {
+  axios.delete(`https://crudcrud.com/api/1d2279ac7feb42a69ab13240aa2a8d70/appointmentData/${itemId}`)
+    .then((response) => {
+      console.log(`Item with ID ${itemId} deleted successfully`);
+      // After successfully deleting the item, refresh the list
+      getItems();
+    })
+    .catch((error) => {
+      console.error(`Error deleting item with ID ${itemId}:`, error);
+    });
   }
 }
 
-// Remove item
+
+// edit item
 function editItem(e){
   if (e.target.classList.contains('edit')) {
     var li = e.target.parentElement;
